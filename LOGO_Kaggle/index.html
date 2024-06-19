@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Similarity Search</title>
+</head>
+<body>
+    <h1>Image Similarity Search</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="file" id="fileInput">
+        <button type="submit">Upload</button>
+    </form>
+
+    <div id="result">
+        <h2>Results:</h2>
+        <p id="similarity"></p>
+        <img id="inputImg" src="" alt="Input Image" width="400">
+        <img id="similarImg" src="" alt="Most Similar Image" width="400">
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var formData = new FormData();
+            var fileInput = document.getElementById('fileInput').files[0];
+            formData.append('file', fileInput);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                document.getElementById('inputImg').src = data.input_image_path;
+                document.getElementById('similarImg').src = data.most_similar_image_path;
+                document.getElementById('similarity').innerText = `Similarity: ${data.similarity_score.toFixed(2) * 100}%`;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
