@@ -51,5 +51,6 @@ Copy code
     ├── image1.jpg
     ├── image2.png
     └── ...
+    Dataset of logos has been taken from Kaggle
 Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
